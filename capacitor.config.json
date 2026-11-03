@@ -1,0 +1,6 @@
+{
+  "appId": "ir.noora.app",
+  "appName": "نورا",
+  "webDir": "www",
+  "server": { "androidScheme": "http", "cleartext": true }
+}
