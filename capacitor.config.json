@@ -1,0 +1,9 @@
+{
+  "appId": "ir.aha.assistant",
+  "appName": "AHA",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "http",
+    "cleartext": true
+  }
+}
