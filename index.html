@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A0E17">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<title>نورا</title>
+<style>
+:root{--bg:#0A0E17;--s1:#111726;--s2:#182037;--s3:#202a45;--line:rgba(255,255,255,.07);--tx:#EEF1F8;--mut:#8F9AB3;--acc:#FFB547;--acc2:#FF8A3D;--ok:#3DDC97;--bad:#FF6B6B;--info:#5BA8FF;--r:20px;
+--f:"Vazirmatn","Vazir","IRANSans","Samim",system-ui,"Segoe UI",Tahoma,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);color:var(--tx);font-family:var(--f);font-size:15px}
+body{display:flex;justify-content:center;background:radial-gradient(900px 420px at 50% -120px,rgba(255,181,71,.12),transparent 70%),var(--bg)}
+#app{width:100%;max-width:520px;height:100%;display:flex;flex-direction:column;position:relative;overflow:hidden}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+/* header */
+.top{display:flex;align-items:center;justify-content:space-between;padding:calc(14px + env(safe-area-inset-top)) 18px 10px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px}
+.logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(145deg,var(--acc),var(--acc2));display:grid;place-items:center;color:#1b1005;box-shadow:0 6px 22px rgba(255,160,60,.35)}
+.pills{display:flex;gap:6px}
+.pill{display:flex;align-items:center;gap:6px;font-size:11.5px;padding:6px 10px;border-radius:99px;background:var(--s1);border:1px solid var(--line);color:var(--mut)}
+.pill i{width:7px;height:7px;border-radius:50%;background:var(--bad)}
+.pill.ok i{background:var(--ok);box-shadow:0 0 8px var(--ok)} .pill.ok{color:var(--tx)}
+/* views */
+#views{flex:1;overflow:hidden;position:relative}
+.view{position:absolute;inset:0;overflow-y:auto;padding:6px 18px 110px;display:none;animation:in .25s ease}
+.view.active{display:block}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h1{font-size:23px;font-weight:800;margin:6px 0 4px} h2{font-size:15px;font-weight:700} .sub{color:var(--mut);font-size:13px;line-height:1.9}
+.sec{display:flex;justify-content:space-between;align-items:center;margin:22px 2px 10px}
+.sec a{color:var(--acc);font-size:13px;cursor:pointer}
+/* cards */
+.card{background:linear-gradient(180deg,var(--s1),#0F1524);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.hero{background:linear-gradient(135deg,#2a1d0b,#181226 60%,#101a33);border-color:rgba(255,181,71,.22);position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;left:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(255,181,71,.35),transparent 70%)}
+.hero>*{position:relative;z-index:1}
+.row{display:flex;align-items:center;gap:10px} .grow{flex:1;min-width:0}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+.tile{background:var(--s1);border:1px solid var(--line);border-radius:16px;padding:14px 10px;text-align:center}
+.tile b{display:block;font-size:22px;font-weight:800;color:var(--acc)} .tile span{font-size:11.5px;color:var(--mut)}
+/* controls */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:14px;border:1px solid var(--line);background:var(--s2);font-weight:600;cursor:pointer;transition:.15s;user-select:none}
+.btn:active{transform:scale(.97)} .btn.pri{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#1b1005;border:0}
+.btn.dan{color:var(--bad)} .btn.sm{padding:8px 12px;font-size:13px;border-radius:12px} .btn.blk{width:100%}
+.btn[disabled],.btn.off{opacity:.4;pointer-events:none}
+.ibtn{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--s2);border:1px solid var(--line);cursor:pointer;color:var(--tx);flex:none}
+.ibtn.acc{background:rgba(255,181,71,.14);color:var(--acc);border-color:rgba(255,181,71,.25)}
+input,select,textarea{width:100%;background:var(--s2);border:1px solid var(--line);border-radius:14px;padding:12px 14px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:rgba(255,181,71,.55)} textarea{resize:none;min-height:76px}
+label{display:block;font-size:12.5px;color:var(--mut);margin:12px 2px 6px}
+.seg{display:flex;gap:6px;flex-wrap:wrap} .seg .chip{flex:1;text-align:center;white-space:nowrap}
+.chip{padding:9px 12px;border-radius:12px;background:var(--s2);border:1px solid var(--line);font-size:13px;cursor:pointer}
+.chip.on{background:rgba(255,181,71,.16);border-color:rgba(255,181,71,.5);color:var(--acc)}
+.tag{font-size:11px;padding:3px 9px;border-radius:99px;background:var(--s3);color:var(--mut)} .tag.ok{background:rgba(61,220,151,.14);color:var(--ok)} .tag.warn{background:rgba(255,181,71,.15);color:var(--acc)}
+.item{display:flex;align-items:center;gap:12px;padding:13px 0;border-top:1px solid var(--line)} .item:first-child{border-top:0}
+.item .t{font-weight:600;font-size:14.5px;overflow:hidden;text-overflow:ellipsis} .item .s{font-size:12px;color:var(--mut);margin-top:3px}
+.ava{width:42px;height:42px;border-radius:13px;background:var(--s3);display:grid;place-items:center;color:var(--acc);flex:none}
+input[type=range]{padding:0;height:6px;accent-color:var(--acc);margin:14px 0 4px;background:var(--s3)}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;font-size:12.5px;color:var(--mut)} .kv b{display:block;color:var(--tx);font-weight:600;font-size:13.5px;direction:ltr;text-align:right;margin-top:2px}
+.empty{text-align:center;padding:34px 12px;color:var(--mut);font-size:13.5px;line-height:2} .empty svg{width:42px;height:42px;opacity:.5;margin-bottom:8px}
+.note{background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.3);color:#ffb0b0;border-radius:14px;padding:11px 13px;font-size:12.5px;line-height:1.9;margin-bottom:12px}
+.link{display:flex;align-items:center;gap:12px;padding:15px 2px;border-top:1px solid var(--line);cursor:pointer} .link:first-child{border-top:0} .link svg:last-child{margin-right:auto;opacity:.4;transform:scaleX(-1)}
+/* tabs */
+.tabs{position:absolute;bottom:0;left:0;right:0;display:flex;padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:rgba(10,14,23,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--line);z-index:5}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 0;border-radius:14px;color:var(--mut);font-size:11px;cursor:pointer}
+.tab.on{color:var(--acc);background:rgba(255,181,71,.1)}
+/* sheet + toast */
+#shade{position:absolute;inset:0;background:rgba(0,0,0,.6);opacity:0;pointer-events:none;transition:.2s;z-index:20}
+#shade.on{opacity:1;pointer-events:auto}
+#sheet{position:absolute;left:0;right:0;bottom:0;max-height:88%;overflow-y:auto;background:var(--s1);border-radius:26px 26px 0 0;border:1px solid var(--line);padding:10px 18px calc(22px + env(safe-area-inset-bottom));transform:translateY(105%);transition:.28s cubic-bezier(.2,.8,.2,1);z-index:21}
+#sheet.on{transform:none} .grab{width:42px;height:4px;border-radius:9px;background:var(--s3);margin:0 auto 14px}
+#toast{position:absolute;top:calc(70px + env(safe-area-inset-top));left:50%;transform:translate(-50%,-20px);background:var(--s3);border:1px solid var(--line);padding:11px 18px;border-radius:14px;font-size:13.5px;opacity:0;pointer-events:none;transition:.25s;z-index:30;max-width:90%;text-align:center}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+.spin{width:22px;height:22px;border-radius:50%;border:2.5px solid var(--s3);border-top-color:var(--acc);animation:sp .8s linear infinite;margin:30px auto}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="top">
+    <div class="brand"><div class="logo" id="logo"></div>نورا</div>
+    <div class="pills"><div class="pill" id="pNet"><i></i><span>اینترنت</span></div><div class="pill" id="pDev"><i></i><span>دستگاه</span></div></div>
+  </header>
+
+  <main id="views">
+    <section class="view active" id="v-home">
+      <div class="card hero">
+        <div class="sub" id="hSub">—</div>
+        <h1 id="hTitle">سلام</h1>
+        <div class="sub" id="hLine">در حال بررسی وضعیت…</div>
+        <div class="row" style="margin-top:16px;gap:8px">
+          <div class="btn pri grow" id="goChat"><span data-ic="chat"></span>چت دستیار</div>
+          <div class="btn grow" id="goDash"><span data-ic="grid"></span>داشبورد</div>
+        </div>
+      </div>
+      <div id="setupCard"></div>
+      <div class="tiles">
+        <div class="tile"><b id="tRem">–</b><span>یادآوری</span></div>
+        <div class="tile"><b id="tSong">–</b><span>آهنگ</span></div>
+        <div class="tile"><b id="tDev">–</b><span>دستگاه آنلاین</span></div>
+      </div>
+      <div class="sec"><h2>گفتن یک جمله</h2></div>
+      <div class="card">
+        <div class="sub" style="margin-bottom:10px">متن را بنویسید تا دستیار روی دستگاه بخواند.</div>
+        <div class="row"><input id="speakIn" placeholder="مثلاً: شام آماده است"><div class="ibtn acc" id="speakBtn" data-ic="send"></div></div>
+      </div>
+      <div class="sec"><h2>حالت سکوت</h2><span class="tag" id="silTag">—</span></div>
+      <div class="card"><div class="seg" id="silSeg">
+        <div class="chip" data-d="2h">۲ ساعت</div><div class="chip" data-d="tonight">تا صبح</div><div class="chip" data-d="24h">۲۴ ساعت</div><div class="chip" data-d="off">لغو</div>
+      </div></div>
+    </section>
+
+    <section class="view" id="v-rem">
+      <div class="row" style="margin:6px 0 4px"><h1 class="grow">یادآوری‌ها</h1><div class="ibtn acc" id="remAdd" data-ic="plus"></div></div>
+      <div class="sub">یادآوری و هشدارهایی که دستیار در زمان مقرر می‌گوید.</div>
+      <div id="remBody" class="card" style="margin-top:14px"></div>
+    </section>
+
+    <section class="view" id="v-music">
+      <h1>موزیک و اذان</h1>
+      <div class="seg" style="margin:12px 0"><div class="chip on" data-m="lib">کتابخانه</div><div class="chip" data-m="azan">اذان</div></div>
+      <input id="musicQ" placeholder="جستجوی آهنگ…" style="margin-bottom:12px">
+      <div id="musicBody" class="card"></div>
+    </section>
+
+    <section class="view" id="v-dev">
+      <h1>دستگاه</h1><div class="sub">اتصال مستقیم، بدون نیاز به اینترنت</div>
+      <div class="note" id="mixed" style="display:none;margin-top:12px">این صفحه با HTTPS باز شده و مرورگر اجازه‌ی اتصال به دستگاه را نمی‌دهد. از نسخه‌ی APK استفاده کنید.</div>
+      <div class="card" style="margin-top:14px">
+        <div class="row"><div class="ava" id="devIcon"></div><div class="grow"><div class="t" id="devState" style="font-weight:700">در حال جستجو…</div><div class="s sub" id="devHint">به هات‌اسپات Noora-Device یا مودم خانه وصل شوید.</div></div></div>
+        <div class="row" style="margin-top:12px"><div class="btn pri grow" id="devRetry">اتصال دوباره</div></div>
+      </div>
+      <div id="devPanel">
+        <div class="card">
+          <div class="row"><h2 class="grow">ولوم</h2><span class="tag warn" id="volLbl">—</span></div>
+          <input type="range" id="vol" min="0" max="100" step="5">
+          <div class="sub" id="nowPlay" style="margin:6px 0 12px">چیزی در حال پخش نیست</div>
+          <div class="row"><div class="btn grow" id="stopM"><span data-ic="stop"></span>توقف پخش</div><div class="btn grow" id="chime"><span data-ic="bell"></span>تست صدا</div></div>
+        </div>
+        <div class="card">
+          <h2>یادآوری آفلاین روی دستگاه</h2><div class="sub">بوق و متن روی نمایشگر، بدون اینترنت.</div>
+          <div class="row" style="margin-top:10px"><input id="lrText" placeholder="مثلاً: دارو" class="grow" style="flex:2"><input id="lrMin" type="number" inputmode="numeric" placeholder="دقیقه" style="flex:1"></div>
+          <div class="btn pri blk" id="lrAdd" style="margin-top:10px">افزودن به دستگاه</div>
+          <div id="lrList" style="margin-top:6px"></div>
+        </div>
+        <div class="card"><h2 style="margin-bottom:12px">وضعیت دستگاه</h2><div class="kv" id="devKv"></div>
+          <div class="row" style="margin-top:14px"><div class="btn grow sm" id="syncT">همگام‌سازی ساعت</div><div class="btn dan grow sm" id="reboot">راه‌اندازی مجدد</div></div></div>
+      </div>
+    </section>
+
+    <section class="view" id="v-more">
+      <h1>بیشتر</h1>
+      <div class="card" style="margin-top:12px">
+        <div class="link" id="mCmds"><span data-ic="cmd"></span><div class="grow"><div class="t">فرمان‌های یادگرفته‌شده</div><div class="s sub">جستجو، ویرایش و حذف دستورهای صوتی</div></div><span data-ic="chev"></span></div>
+        <div class="link" data-open="/chat"><span data-ic="chat"></span><div class="grow"><div class="t">چت با هوش مصنوعی</div><div class="s sub">نیازمند اینترنت</div></div><span data-ic="chev"></span></div>
+        <div class="link" data-open="/"><span data-ic="grid"></span><div class="grow"><div class="t">داشبورد کامل</div><div class="s sub">حافظه، دستگاه‌ها، وای‌فای، شبکه و …</div></div><span data-ic="chev"></span></div>
+      </div>
+      <div class="sec"><h2>اتصال</h2></div>
+      <div class="card">
+        <label style="margin-top:0">کلید اپ (APP_API_KEY)</label><input id="cKey" type="password" dir="ltr" placeholder="همان کلید داخل Cloudflare">
+        <label>آدرس ورکر</label><input id="cWorker" dir="ltr">
+        <label>پین دستگاه</label><input id="cPin" dir="ltr" inputmode="numeric">
+        <label>IP دستگاه (اختیاری)</label><input id="cIp" dir="ltr" placeholder="192.168.1.50">
+        <div class="btn pri blk" id="cSave" style="margin-top:14px">ذخیره و آزمایش اتصال</div>
+      </div>
+      <div class="sec"><h2>به‌زودی</h2></div>
+      <div class="card"><div class="seg">
+        <span class="chip">روشنایی هوشمند</span><span class="chip">حالت‌ها</span><span class="chip">زمان‌بندی</span><span class="chip">سنسورها</span><span class="chip">پایه‌های سخت‌افزار</span></div>
+        <div class="sub" style="margin-top:12px">این امکانات هنوز در سخت‌افزار فعلی نیستند. <a href="old-ui.html" style="color:var(--acc)">نمای قدیمی</a></div></div>
+    </section>
+  </main>
+
+  <nav class="tabs" id="tabs"></nav>
+  <div id="shade"></div><div id="sheet"></div><div id="toast"></div>
+</div>
+
+<script>
+/* ---------- ابزارها ---------- */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const fa=n=>Number(n).toLocaleString('fa-IR',{useGrouping:false});
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const LS={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+const CFG={worker:LS.get('worker','https://aha-assistant.ahanexus-404.workers.dev'),key:LS.get('appkey',''),pin:LS.get('pin','1234'),ip:LS.get('ip','')};
+const IC={chat:'<path d="M21 12a8 8 0 0 1-11.5 7.2L3 21l1.8-5.5A8 8 0 1 1 21 12z"/>',grid:'<rect x="3" y="3" width="7" height="9" rx="2"/><rect x="14" y="3" width="7" height="5" rx="2"/><rect x="14" y="12" width="7" height="9" rx="2"/><rect x="3" y="16" width="7" height="5" rx="2"/>',
+home:'<path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/>',bell:'<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/>',music:'<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
+dev:'<rect x="7" y="2" width="10" height="20" rx="3"/><path d="M11 18h2"/>',more:'<circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/>',plus:'<path d="M12 5v14M5 12h14"/>',
+send:'<path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/>',play:'<path d="M7 4v16l13-8z"/>',stop:'<rect x="6" y="6" width="12" height="12" rx="2"/>',trash:'<path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/>',
+edit:'<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',cmd:'<path d="m4 17 6-6-6-6M12 19h8"/>',chev:'<path d="m9 6 6 6-6 6"/>',moon:'<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',bulb:'<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.3 1 2.5h6c0-1.2.3-1.8 1-2.5A6 6 0 0 0 12 3z"/>',cloud:'<path d="M7 18a4 4 0 0 1-.5-8A6 6 0 0 1 18 9a4.5 4.5 0 0 1-.5 9z"/>',wifi:'<path d="M2 8.5a17 17 0 0 1 20 0M5 12.5a12 12 0 0 1 14 0M8.5 16a6 6 0 0 1 7 0"/><circle cx="12" cy="19.5" r=".8"/>'};
+const ic=n=>`<svg viewBox="0 0 24 24">${IC[n]||''}</svg>`;
+const paintIcons=(r=document)=>$$('[data-ic]',r).forEach(e=>{e.innerHTML=ic(e.dataset.ic)});
+let toastT;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),2600)}
+function openSheet(html,mount){$('#sheet').innerHTML='<div class="grab"></div>'+html;paintIcons($('#sheet'));$('#shade').classList.add('on');$('#sheet').classList.add('on');mount&&mount($('#sheet'))}
+function closeSheet(){$('#shade').classList.remove('on');$('#sheet').classList.remove('on')}
+$('#shade').onclick=closeSheet;
+const spinner='<div class="spin"></div>';
+const emptyBox=(i,t,btn)=>`<div class="empty">${ic(i)}<div>${t}</div>${btn||''}</div>`;
+const ERR={no_key:'کلید اپ را در «بیشتر ← اتصال» وارد کنید.',unauthorized:'کلید اپ اشتباه است.',app_api_not_configured:'روی ورکر، متغیر APP_API_KEY تنظیم نشده.',silence_mode:'حالت سکوت فعال است؛ اول لغوش کنید.',no_device:'هیچ دستگاه تأییدشده‌ای نیست.',net:'اینترنت در دسترس نیست.',not_found:'پیدا نشد.',time_not_set:'اول ساعت دستگاه را همگام کنید.',bad_pin:'پین دستگاه اشتباه است.'};
+const errMsg=e=>ERR[e.code]||ERR[e.message]||('خطا: '+(e.message||e));
+async function tf(url,opt,ms){const c=new AbortController(),t=setTimeout(()=>c.abort(),ms||10000);try{return await fetch(url,{...opt,signal:c.signal})}finally{clearTimeout(t)}}
+
+/* ---------- ورکر (آنلاین) ---------- */
+async function cloud(path,body){
+  if(!CFG.key) throw Object.assign(new Error('no_key'),{code:'no_key'});
+  let r;try{r=await tf(CFG.worker+'/app-api'+path,{method:body===undefined?'GET':'POST',headers:{Authorization:'Bearer '+CFG.key,...(body!==undefined?{'Content-Type':'application/json'}:{})},body:body===undefined?undefined:JSON.stringify(body)},15000)}
+  catch(e){throw Object.assign(new Error('net'),{code:'net'})}
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok) throw Object.assign(new Error(j.error||('http_'+r.status)),{code:j.error||r.status});
+  return j;
+}
+let NET=navigator.onLine;
+async function checkNet(){let ok=navigator.onLine;if(ok){try{await tf(CFG.worker+'/app-api/ping',{mode:'no-cors',cache:'no-store'},4000)}catch(e){ok=false}}NET=ok;$('#pNet').classList.toggle('ok',ok);$('#pNet span').textContent=ok?'آنلاین':'آفلاین'}
+addEventListener('online',checkNet);addEventListener('offline',checkNet);
+function openOnline(path){if(!NET)return toast('برای این بخش اینترنت را روشن کنید');const url=CFG.worker+path;const B=window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.Browser;B?B.open({url}):window.open(url,'_blank')}
+const needNet=(el,fn)=>{el.innerHTML=spinner;return fn().catch(e=>{el.innerHTML=emptyBox(e.code==='no_key'?'cloud':'wifi',esc(errMsg(e)),`<div class="btn sm" onclick="${e.code==='no_key'||e.code==='unauthorized'?"go('more')":'reloadView()'}" style="margin-top:8px">${e.code==='no_key'||e.code==='unauthorized'?'رفتن به تنظیمات':'تلاش دوباره'}</div>`)})};
+
+/* ---------- ناوبری ---------- */
+const TABS=[['home','خانه','home'],['rem','یادآوری','bell'],['music','موزیک','music'],['dev','دستگاه','dev'],['more','بیشتر','more']];
+$('#tabs').innerHTML=TABS.map(t=>`<div class="tab" data-t="${t[0]}">${ic(t[2])}<span>${t[1]}</span></div>`).join('');
+let CUR='home';
+function go(n){CUR=n;$$('.view').forEach(v=>v.classList.toggle('active',v.id==='v-'+n));$$('.tab').forEach(t=>t.classList.toggle('on',t.dataset.t===n));$('#v-'+n).scrollTop=0;reloadView()}
+function reloadView(){({home:loadHome,rem:loadRem,music:loadMusic,dev:pollDev,more:()=>{}})[CUR]()}
+$$('.tab').forEach(t=>t.onclick=()=>go(t.dataset.t));
+$$('[data-open]').forEach(e=>e.onclick=()=>openOnline(e.dataset.open));
+$('#goChat').onclick=()=>openOnline('/chat');$('#goDash').onclick=()=>openOnline('/');
+
+/* ---------- خانه ---------- */
+function greet(){const h=+new Date().toLocaleString('en-GB',{hour:'numeric',hour12:false,timeZone:'Asia/Tehran'});return h<5?'شب بخیر':h<12?'صبح بخیر':h<17?'ظهر بخیر':h<20?'عصر بخیر':'شب بخیر'}
+async function loadHome(){
+  $('#hTitle').textContent=greet();$('#hSub').textContent=new Date().toLocaleDateString('fa-IR',{weekday:'long',day:'numeric',month:'long',timeZone:'Asia/Tehran'});
+  $('#setupCard').innerHTML=CFG.key?'':`<div class="card"><div class="row"><div class="ava">${ic('cloud')}</div><div class="grow"><div class="t" style="font-weight:700">اتصال به ورکر</div><div class="s sub">برای فعال‌شدن یادآوری، موزیک و فرمان‌ها کلید اپ را وارد کنید.</div></div></div><div class="btn pri blk" onclick="go('more')" style="margin-top:12px">وارد کردن کلید</div></div>`;
+  try{const o=await cloud('/overview');
+    $('#tRem').textContent=fa(o.reminders);$('#tSong').textContent=fa(o.songs);const on=o.devices.filter(d=>d.online).length;$('#tDev').textContent=fa(on);
+    $('#hLine').textContent=o.devices.length?(on?`${fa(on)} دستگاه آنلاین است`:'هیچ دستگاهی آنلاین نیست'):'دستگاهی تأیید نشده';
+    $('#silTag').textContent=o.silence?('فعال · '+o.silence.label):'خاموش';$('#silTag').className='tag '+(o.silence?'warn':'');
+  }catch(e){$('#hLine').textContent=CFG.key?errMsg(e):'ابتدا کلید اپ را وارد کنید';['tRem','tSong','tDev'].forEach(i=>$('#'+i).textContent='–')}
+}
+$('#speakBtn').onclick=async()=>{const t=$('#speakIn').value.trim();if(!t)return;try{await cloud('/speak',{text:t});$('#speakIn').value='';toast('ارسال شد؛ تا ۱۵ ثانیه دیگر پخش می‌شود')}catch(e){toast(errMsg(e))}};
+$('#speakIn').onkeydown=e=>{if(e.key==='Enter')$('#speakBtn').click()};
+$$('#silSeg .chip').forEach(c=>c.onclick=async()=>{try{await cloud('/silence',{duration:c.dataset.d});toast(c.dataset.d==='off'?'حالت سکوت لغو شد':'حالت سکوت فعال شد');loadHome()}catch(e){toast(errMsg(e))}});
+
+/* ---------- یادآوری‌ها ---------- */
+const tehran=ms=>new Date(ms).toLocaleString('fa-IR',{weekday:'short',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',timeZone:'Asia/Tehran'});
+function rel(ms){const m=Math.round((ms-Date.now())/60000);if(m<-1)return 'گذشته';if(m<1)return 'همین الان';if(m<60)return fa(m)+' دقیقه دیگر';if(m<1440)return fa(Math.round(m/60))+' ساعت دیگر';return fa(Math.round(m/1440))+' روز دیگر'}
+async function loadRem(){const box=$('#remBody');await needNet(box,async()=>{const {items}=await cloud('/reminders');
+  box.innerHTML=items.length?items.map(r=>`<div class="item"><div class="ava">${ic(r.priority==='alarm'?'bell':'moon')}</div><div class="grow"><div class="t">${esc(r.text)}</div><div class="s">${tehran(r.dueAt)} · ${rel(r.dueAt)}</div><div class="row" style="gap:6px;margin-top:6px">${r.recurring?`<span class="tag">${r.recurrenceType==='weekly'?'هفتگی':'روزانه'}</span>`:''}${r.priority!=='normal'?`<span class="tag warn">${r.priority==='alarm'?'هشدار':'پیگیر'}</span>`:''}</div></div><div class="ibtn" onclick="delRem('${r.id}')">${ic('trash')}</div></div>`).join(''):emptyBox('bell','یادآوری‌ای ثبت نشده.<br>با دکمه‌ی + اولین یادآوری را بسازید.')})}
+window.delRem=async id=>{if(!confirm('این یادآوری حذف شود؟'))return;try{await cloud('/reminders/delete',{id});toast('حذف شد');loadRem()}catch(e){toast(errMsg(e))}};
+const tehranToMs=v=>{const m=/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(v||'');return m?Date.UTC(+m[1],m[2]-1,+m[3],+m[4],+m[5])-12600000:null};
+$('#remAdd').onclick=()=>{let due=null,rec='',pri='normal';
+  openSheet(`<h2 style="margin-bottom:4px">یادآوری جدید</h2><label>متن</label><textarea id="nrT" placeholder="مثلاً: قرص‌ها را بخور"></textarea>
+  <label>زمان</label><div class="seg" id="nrQ"><div class="chip" data-m="10">۱۰ دقیقه</div><div class="chip" data-m="30">۳۰ دقیقه</div><div class="chip" data-m="60">۱ ساعت</div><div class="chip" data-m="180">۳ ساعت</div></div>
+  <input type="datetime-local" id="nrD" dir="ltr" style="margin-top:8px"><div class="sub" id="nrInfo" style="margin-top:6px"></div>
+  <label>تکرار</label><div class="seg" id="nrR"><div class="chip on" data-v="">یک‌بار</div><div class="chip" data-v="daily">روزانه</div><div class="chip" data-v="weekly">هفتگی</div></div>
+  <label>نوع</label><div class="seg" id="nrP"><div class="chip on" data-v="normal">عادی</div><div class="chip" data-v="alarm">هشدار</div><div class="chip" data-v="nag">پیگیر</div></div>
+  <div class="btn pri blk" id="nrGo" style="margin-top:18px">ثبت یادآوری</div>`,s=>{
+    const pick=(sel,fn)=>$$(sel+' .chip',s).forEach(c=>c.onclick=()=>{$$(sel+' .chip',s).forEach(x=>x.classList.remove('on'));c.classList.add('on');fn(c)});
+    const info=()=>$('#nrInfo',s).textContent=due?('زمان: '+tehran(due)):'';
+    pick('#nrQ',c=>{due=Date.now()+ +c.dataset.m*60000;$('#nrD',s).value='';info()});
+    $('#nrD',s).onchange=e=>{due=tehranToMs(e.target.value);$$('#nrQ .chip',s).forEach(x=>x.classList.remove('on'));info()};
+    pick('#nrR',c=>rec=c.dataset.v);pick('#nrP',c=>pri=c.dataset.v);
+    $('#nrGo',s).onclick=async()=>{const text=$('#nrT',s).value.trim();if(!text||!due)return toast('متن و زمان را مشخص کنید');
+      try{await cloud('/reminders/add',{text,dueAt:due,recurrence:rec,priority:pri});closeSheet();toast('یادآوری ثبت شد');loadRem()}
+      catch(e){if(e.code==='net'&&DEV.base){try{await dapi('/api/reminder',{text,inSeconds:Math.max(5,Math.round((due-Date.now())/1000)),kind:pri==='alarm'?'alarm':'reminder'});closeSheet();toast('اینترنت نبود؛ روی خود دستگاه ثبت شد')}catch(e2){toast(errMsg(e2))}}else toast(errMsg(e))}}})};
+
+/* ---------- موزیک و اذان ---------- */
+let MODE='lib',LIB=[];
+$$('#v-music [data-m]').forEach(c=>c.onclick=()=>{MODE=c.dataset.m;$$('#v-music [data-m]').forEach(x=>x.classList.toggle('on',x===c));$('#musicQ').style.display=MODE==='lib'?'':'none';loadMusic()});
+const mood=m=>m||'';
+async function loadMusic(){const box=$('#musicBody');
+  if(MODE==='azan')return needNet(box,async()=>{const {items}=await cloud('/azan');box.innerHTML=items.map(p=>`<div class="item"><div class="ava">${ic('moon')}</div><div class="grow"><div class="t">${esc(p.label)}</div><div class="s">${p.hasAudio?'<span class="tag ok">صدا آپلود شده</span>':'<span class="tag">بدون صدا (از داشبورد آپلود کنید)</span>'}</div></div><div class="ibtn acc ${p.hasAudio?'':'off'}" onclick="playAzan('${p.key}')">${ic('play')}</div></div>`).join('')});
+  return needNet(box,async()=>{const {items}=await cloud('/music');LIB=items;drawLib()})}
+function drawLib(){const q=$('#musicQ').value.trim().toLowerCase();const l=LIB.filter(s=>(s.title+' '+s.artist).toLowerCase().includes(q));
+  $('#musicBody').innerHTML=l.length?l.map(s=>`<div class="item"><div class="ava">${ic('music')}</div><div class="grow"><div class="t">${esc(s.title)}</div><div class="s">${esc(s.artist||'—')}</div></div><div class="ibtn acc" onclick="playSong('${s.id}')">${ic('play')}</div></div>`).join(''):emptyBox('music',LIB.length?'نتیجه‌ای پیدا نشد.':'کتابخانه خالی است. آهنگ‌ها را از داشبورد اضافه کنید.')}
+$('#musicQ').oninput=drawLib;
+window.playSong=async id=>{try{await cloud('/music/play',{id});toast('پخش روی دستگاه شروع می‌شود')}catch(e){toast(errMsg(e))}};
+window.playAzan=async k=>{try{await cloud('/azan/play',{prayer:k});toast('پخش اذان ارسال شد')}catch(e){toast(errMsg(e))}};
+
+/* ---------- فرمان‌ها ---------- */
+$('#mCmds').onclick=async()=>{openSheet('<h2>فرمان‌های یادگرفته‌شده</h2><input id="cmQ" placeholder="جستجو…" style="margin:12px 0"><div id="cmBody">'+spinner+'</div>',async s=>{let L=[];
+  const draw=()=>{const q=$('#cmQ',s).value.trim();const l=L.filter(c=>(c.keywords.join(' ')+' '+c.response).includes(q));$('#cmBody',s).innerHTML=l.length?l.map(c=>`<div class="item"><div class="grow"><div class="t">${esc(c.keywords.join('، '))}</div><div class="s">${esc(c.response)}</div><div class="row" style="gap:6px;margin-top:6px"><span class="tag">${esc(c.category)}</span>${c.action?'<span class="tag warn">دستگاه</span>':''}<span class="tag">${fa(c.count)} بار</span></div></div><div class="ibtn" data-e="${c.id}">${ic('edit')}</div><div class="ibtn" data-d="${c.id}">${ic('trash')}</div></div>`).join(''):emptyBox('cmd','فرمانی پیدا نشد.')};
+  try{L=(await cloud('/commands')).items;draw()}catch(e){$('#cmBody',s).innerHTML=emptyBox('wifi',esc(errMsg(e)));return}
+  $('#cmQ',s).oninput=draw;
+  s.onclick=async ev=>{const d=ev.target.closest('[data-d]'),e=ev.target.closest('[data-e]');
+    if(d&&confirm('این فرمان حذف شود؟')){try{await cloud('/commands/delete',{id:d.dataset.d});L=L.filter(x=>x.id!==d.dataset.d);draw();toast('حذف شد')}catch(x){toast(errMsg(x))}}
+    if(e){const c=L.find(x=>x.id===e.dataset.e);openSheet(`<h2>ویرایش فرمان</h2><label>کلمات کلیدی (با کاما)</label><input id="ek" value="${esc(c.keywords.join('، '))}"><label>جواب</label><textarea id="er">${esc(c.response)}</textarea><div class="btn pri blk" id="es" style="margin-top:16px">ذخیره</div>`,s2=>{$('#es',s2).onclick=async()=>{try{await cloud('/commands/edit',{id:c.id,keywords:$('#ek',s2).value.replace(/،/g,','),response:$('#er',s2).value});toast('ذخیره شد');closeSheet()}catch(x){toast(errMsg(x))}}})}}})};
+
+/* ---------- دستگاه (محلی/آفلاین) ---------- */
+const AP='192.168.4.1';let DEV={base:null,last:null};
+if(location.protocol==='https:'&&!window.Capacitor)$('#mixed').style.display='block';
+async function dapi(path,body){if(!DEV.base)throw Object.assign(new Error('net'),{code:'net'});let r;
+  try{r=await tf(DEV.base+path,{method:body===undefined?'GET':'POST',headers:{'X-Noora-Pin':CFG.pin,...(body!==undefined?{'Content-Type':'application/json'}:{})},body:body===undefined?undefined:JSON.stringify(body)},3000)}catch(e){throw Object.assign(new Error('net'),{code:'net'})}
+  const j=await r.json().catch(()=>({}));if(!r.ok)throw Object.assign(new Error(j.error||'http_'+r.status),{code:j.error||r.status});return j}
+async function findDev(){const hs=[...new Set([AP,CFG.ip,LS.get('ipLast',''),LS.get('ipSta',''),'noora.local'].filter(Boolean))];
+  try{const h=await Promise.any(hs.map(async h=>{const r=await tf('http://'+h+'/api/ping',{},2000);const j=await r.json();if(!j.noora)throw 0;return h}));DEV.base='http://'+h;return h}catch(e){DEV.base=null;return null}}
+function devUI(state,t,h){$('#devIcon').innerHTML=ic(state==='ok'?'wifi':'dev');$('#devIcon').style.color=state==='ok'?'var(--ok)':state==='warn'?'var(--acc)':'var(--bad)';$('#devState').textContent=t;if(h)$('#devHint').textContent=h;$('#devPanel').style.cssText=state==='ok'?'':'opacity:.4;pointer-events:none';$('#pDev').classList.toggle('ok',state==='ok')}
+async function pollDev(){if(!DEV.base&&!(await findDev())){devUI('bad','دستگاه پیدا نشد','به وای‌فای Noora-Device (رمز پیش‌فرض noora1234) یا مودم خانه وصل شوید.');return}
+  try{const st=await dapi('/api/status');DEV.last=st;LS.set('ipLast',DEV.base.replace('http://',''));if(st.staIp&&st.staIp!=='0.0.0.0')LS.set('ipSta',st.staIp);drawDev(st)}
+  catch(e){if(e.code===401||e.code==='bad_pin')devUI('warn','پین اشتباه است','پین را در «بیشتر ← اتصال» درست کنید.');else{DEV.base=null;devUI('bad','ارتباط قطع شد','در حال جستجوی دوباره…')}}}
+function drawDev(st){const ap=DEV.base.includes(AP);devUI('ok',ap?'وصل از طریق هات‌اسپات دستگاه':'وصل از طریق مودم خانه','آدرس: '+DEV.base.replace('http://','')+(st.staConnected?' · دستگاه به اینترنت وصل است':''));
+  if(document.activeElement!==$('#vol'))$('#vol').value=st.volume;$('#volLbl').textContent=fa(st.volume)+'٪';
+  $('#nowPlay').textContent=st.playing?'در حال پخش: '+(st.song||'—'):st.speaking?'دستیار در حال صحبت است':'چیزی در حال پخش نیست';
+  const h=Math.floor(st.uptime/3600),m=Math.floor(st.uptime%3600/60);
+  $('#devKv').innerHTML=[['نسخه',st.fw],['سیگنال',st.rssi+' dBm'],['شبکه',st.ssid||'—'],['IP خانه',st.staIp],['روشن‌بودن',fa(h)+'س '+fa(m)+'د'],['دما',fa(st.temp)+'°C'],['RAM آزاد',fa(Math.round(st.freeHeap/1024))+' KB'],['ساعت دستگاه',st.time?new Date(st.time*1000).toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'}):'تنظیم نشده']].map(([k,v])=>`<div>${k}<b>${v}</b></div>`).join('');
+  if(!st.time)syncT(true);loadLr()}
+async function dact(p,b,ok){try{await dapi(p,b??{});ok&&toast(ok);pollDev()}catch(e){toast(errMsg(e))}}
+function syncT(quiet){dact('/api/time',{epoch:Math.floor(Date.now()/1000)},quiet?null:'ساعت دستگاه تنظیم شد')}
+async function loadLr(){try{const {items}=await dapi('/api/reminders');const now=Date.now()/1000;$('#lrList').innerHTML=items.map(i=>`<div class="item"><div class="grow"><div class="t">${esc(i.text)}</div><div class="s">${i.dueAt>now?fa(Math.round((i.dueAt-now)/60))+' دقیقه دیگر':'همین الان'}</div></div><div class="ibtn" data-lr="${i.id}">${ic('trash')}</div></div>`).join('')}catch(e){}}
+$('#lrList').onclick=e=>{const b=e.target.closest('[data-lr]');if(b)dact('/api/reminder/delete',{id:b.dataset.lr}).then(loadLr)};
+let vt;$('#vol').oninput=e=>{$('#volLbl').textContent=fa(e.target.value)+'٪';clearTimeout(vt);vt=setTimeout(()=>dact('/api/volume',{value:+e.target.value}),250)};
+$('#stopM').onclick=()=>dact('/api/music/stop',{},'ارسال شد');$('#chime').onclick=()=>dact('/api/chime');$('#syncT').onclick=()=>syncT(false);
+$('#reboot').onclick=()=>confirm('دستگاه راه‌اندازی مجدد شود؟')&&dact('/api/restart',{},'در حال راه‌اندازی مجدد');
+$('#devRetry').onclick=()=>{DEV.base=null;devUI('bad','در حال اتصال…');pollDev()};
+$('#lrAdd').onclick=async()=>{const text=$('#lrText').value.trim(),min=+$('#lrMin').value;if(!text||!(min>0))return toast('متن و دقیقه را وارد کنید');
+  try{await dapi('/api/reminder',{text,inSeconds:Math.round(min*60),kind:'reminder'});$('#lrText').value='';$('#lrMin').value='';toast('روی دستگاه ثبت شد');loadLr()}catch(e){toast(errMsg(e))}};
+
+/* ---------- تنظیمات اتصال ---------- */
+$('#cKey').value=CFG.key;$('#cWorker').value=CFG.worker;$('#cPin').value=CFG.pin;$('#cIp').value=CFG.ip;
+$('#cSave').onclick=async()=>{CFG.key=$('#cKey').value.trim();CFG.worker=$('#cWorker').value.trim().replace(/\/$/,'');CFG.pin=$('#cPin').value.trim();CFG.ip=$('#cIp').value.trim();
+  ['key:appkey','worker:worker','pin:pin','ip:ip'].forEach(p=>{const[k,n]=p.split(':');LS.set(n,CFG[k])});DEV.base=null;
+  try{await cloud('/ping');toast('اتصال به ورکر برقرار است ✓')}catch(e){toast(errMsg(e))}checkNet()};
+
+/* ---------- شروع ---------- */
+$('#logo').innerHTML=ic('bulb');paintIcons();
+checkNet();go('home');
+let pc=0;setInterval(()=>{pc++;if(CUR==='dev'||pc%3===0)pollDev()},3000);pollDev();setInterval(checkNet,15000);
+if('serviceWorker' in navigator&&location.protocol!=='file:')navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
